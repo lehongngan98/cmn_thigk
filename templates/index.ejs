@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
+    
+
+    
+</head>
+
+<body>
+    <h4>Books:</h4>
+    <form action="/save" method="post" enctype="multipart/form-data">
+        <input type="text" name="maSanPham" id="maSanPham" placeholder="Nhập mã sản phẩm" />
+        <br />
+        <select name="tenSanPham" id="tenSanPham">
+            <option value="Sách">Sách</option>
+            <option value="Vở">Vở</option>
+            <option value="Bút">Bút</option>
+            <option value="Tẩy">Tẩy</option>
+            <option value="Thước">Thước</option>
+        </select>
+        <br />
+        <input type="text" name="soLuong" id="soLuong" placeholder="Nhập số lượng" />
+        <br />
+        <input type="file" name="image" id="image" accept="image/*" />
+        <input type="submit" value="Thêm" />
+    </form>
+
+
+    <br />
+
+    <form action="/delete" method="post" enctype="multipart/form-data">
+        <table border="true">
+            <tr>
+                <th>Mã sản phẩm</th>
+                <th>Tên sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Hình ảnh</th>
+                <th>Chọn</th>
+            </tr>
+            <% for(let i = 0; i< data.length; i++){ %>
+                <tr>
+                    <td>
+                        <%= data[i].maSanPham %>
+                    </td>
+                    <td>
+                        <%= data[i].tenSanPham %>
+                    </td>
+                    <td>
+                        <%= data[i].soLuong %>
+                    </td>
+                    <td><img src="<%= data[i].image %>" alt="avt_<%= data[i].maSanPham %>" width="48" height="48" /></td>
+                    <td>
+                        <input type="checkbox" name="<%= data[i].maSanPham %>" id="<%= data[i].maSanPham %>" />
+                    </td>
+                </tr>
+                <% } %>
+        </table>
+        <input type="submit" value="Xoá chọn">
+    </form>
+</body>
+
+<script>
+    // validation form maSanPham , soLuong ,image not null
+    document.querySelector('form').addEventListener('submit', function(e) {
+        let maSanPham = document.getElementById('maSanPham').value;
+        let soLuong = document.getElementById('soLuong').value;
+        let image = document.getElementById('image').value;
+        if (maSanPham === '') {
+            e.preventDefault();
+            alert('Vui lòng nhập thông tin mã sản phẩm');
+        }
+        if (soLuong === '') {
+            e.preventDefault();
+            alert('Vui lòng nhập thông tin số lượng');
+        }
+        if (image === '') {
+            e.preventDefault();
+            alert('Vui lòng chọn hình ảnh');
+        }
+    });
+
+   // validation form soLuong is number
+    document.getElementById('soLuong').addEventListener('input', function(e) {
+        let soLuong = document.getElementById('soLuong').value;
+        if (isNaN(soLuong)) {
+            alert('Vui lòng nhập số');
+            document.getElementById('soLuong').value = '';
+        }
+    });
+
+
+</script>
+</html>
